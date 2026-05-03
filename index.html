@@ -1,0 +1,938 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="d'Pelos — Distribuidora mayorista de insumos profesionales para peluquerías y estéticas en Jujuy.">
+  <title>d'Pelos — Distribuidora de Insumos Profesionales · Jujuy</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Paytone+One&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --pu: #9b5fe0; --pk: #f075b5; --ye: #f9d62e; --or: #f9a825;
+      --gr: #5cb85c; --tl: #26c6da; --bl: #4285f4; --rd: #e53935;
+      --dark: #0e0720; --darker: #090413; --dark2: rgba(255,255,255,0.04);
+      --g1: linear-gradient(135deg,#9b5fe0,#f075b5);
+      --g2: linear-gradient(135deg,#f9a825,#5cb85c);
+      --g3: linear-gradient(135deg,#26c6da,#4285f4);
+      --gAll: linear-gradient(135deg,#9b5fe0 0%,#f075b5 30%,#f9a825 65%,#5cb85c 100%);
+      --r: 14px; --rsm: 10px; --rxl: 24px;
+      --sh: 0 8px 32px rgba(155,95,224,.25);
+      --font: 'Nunito',sans-serif;
+      --disp: 'Paytone One',sans-serif;
+      --tr: all .3s cubic-bezier(.4,0,.2,1);
+    }
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    html{scroll-behavior:smooth}
+    body{font-family:var(--font);background:var(--darker);color:#fff;overflow-x:hidden}
+    a{text-decoration:none;color:inherit}ul{list-style:none}
+    button{border:none;cursor:pointer;font-family:var(--font)}
+    input,select,textarea{font-family:var(--font)}
+    ::-webkit-scrollbar{width:5px}::-webkit-scrollbar-track{background:var(--darker)}::-webkit-scrollbar-thumb{background:var(--pu);border-radius:3px}
+
+    /* BG CANVAS */
+    #bgc{position:fixed;inset:0;z-index:0;pointer-events:none}
+
+    /* LAYOUT */
+    .wrap{max-width:1220px;margin:0 auto;padding:0 1.5rem;position:relative;z-index:1}
+    .sp{padding:88px 0}
+
+    /* GRAD TEXT */
+    .gt{background:var(--gAll);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+
+    /* LABEL */
+    .lbl{display:inline-flex;align-items:center;gap:.4rem;background:rgba(155,95,224,.12);border:1.5px solid rgba(155,95,224,.3);border-radius:100px;padding:.32rem .9rem;font-size:.7rem;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--pu)}
+
+    /* BUTTONS */
+    .btn{display:inline-flex;align-items:center;justify-content:center;gap:.5rem;padding:.82rem 1.8rem;border-radius:100px;font-size:.86rem;font-weight:800;cursor:pointer;transition:var(--tr);position:relative;overflow:hidden;border:none}
+    .btn::after{content:'';position:absolute;inset:0;background:rgba(255,255,255,.15);opacity:0;transition:opacity .2s}
+    .btn:hover::after{opacity:1}
+    .btn:hover{transform:translateY(-3px) scale(1.03)}
+    .btn:active{transform:translateY(-1px)}
+    .btn-pu{background:var(--g1);color:#fff;box-shadow:0 6px 24px rgba(155,95,224,.45)}
+    .btn-pu:hover{box-shadow:0 10px 36px rgba(155,95,224,.65)}
+    .btn-or{background:var(--g2);color:#fff;box-shadow:0 6px 24px rgba(249,168,37,.4)}
+    .btn-or:hover{box-shadow:0 10px 36px rgba(249,168,37,.6)}
+    .btn-tl{background:var(--g3);color:#fff;box-shadow:0 6px 24px rgba(38,198,218,.4)}
+    .btn-tl:hover{box-shadow:0 10px 36px rgba(38,198,218,.6)}
+    .btn-gh{background:rgba(255,255,255,.08);border:1.5px solid rgba(255,255,255,.2);color:#fff}
+    .btn-gh:hover{background:rgba(255,255,255,.14)}
+    .btn-ol{background:transparent;border:2px solid rgba(155,95,224,.5);color:var(--pu)}
+    .btn-ol:hover{background:rgba(155,95,224,.1);border-color:var(--pu)}
+
+    /* SECTION HEADER */
+    .sh{text-align:center;margin-bottom:3.5rem}
+    .sh-t{font-family:var(--disp);font-size:clamp(1.8rem,4vw,2.8rem);color:#fff;margin:.75rem 0;line-height:1.1}
+    .sh-s{font-size:.92rem;color:rgba(255,255,255,.5);max-width:480px;margin:0 auto;line-height:1.7}
+
+    /* NAVBAR */
+    #nb{position:fixed;top:0;left:0;right:0;z-index:500;padding:1rem 0;transition:var(--tr)}
+    #nb.sc{background:rgba(9,4,19,.93);backdrop-filter:blur(20px);border-bottom:1px solid rgba(155,95,224,.18);padding:.65rem 0}
+    .ni{display:flex;align-items:center;justify-content:space-between;gap:1.5rem}
+    .nl{display:flex;align-items:center;gap:2rem}
+    .nl a{font-size:.8rem;font-weight:800;letter-spacing:.06em;color:rgba(255,255,255,.65);transition:color .2s;position:relative}
+    .nl a::after{content:'';position:absolute;bottom:-3px;left:0;height:2px;width:0;background:var(--g1);border-radius:2px;transition:width .3s}
+    .nl a:hover{color:#fff}.nl a:hover::after{width:100%}
+    .na{display:flex;align-items:center;gap:.7rem}
+    .cbt{position:relative;width:44px;height:44px;background:rgba(255,255,255,.07);border:1.5px solid rgba(255,255,255,.14);border-radius:13px;display:flex;align-items:center;justify-content:center;font-size:1.2rem;cursor:pointer;transition:var(--tr);color:#fff}
+    .cbt:hover{background:rgba(155,95,224,.2);border-color:var(--pu)}
+    .cc{position:absolute;top:-6px;right:-6px;background:var(--pk);color:#fff;font-size:.6rem;font-weight:900;width:18px;height:18px;border-radius:50%;display:none;align-items:center;justify-content:center}
+    .cc.on{display:flex}
+    .hbg{display:none;flex-direction:column;gap:4px;background:rgba(255,255,255,.07);border:1.5px solid rgba(255,255,255,.14);border-radius:10px;padding:.58rem;cursor:pointer}
+    .hbg span{display:block;width:20px;height:2px;background:#fff;border-radius:2px;transition:var(--tr)}
+    @media(max-width:860px){.nl{display:none}.hbg{display:flex}}
+    .mov{position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:800;opacity:0;pointer-events:none;transition:opacity .3s}
+    .mov.on{opacity:1;pointer-events:auto}
+    .mm{position:fixed;top:0;right:-290px;width:270px;height:100vh;background:var(--darker);z-index:900;padding:5rem 1.5rem 2rem;transition:right .4s cubic-bezier(.4,0,.2,1);border-left:1px solid rgba(155,95,224,.15)}
+    .mm.on{right:0}
+    .mm a{display:block;font-size:1.05rem;font-weight:800;color:rgba(255,255,255,.75);padding:.9rem 0;border-bottom:1px solid rgba(255,255,255,.06);transition:color .2s}
+    .mm a:hover{color:var(--pk)}
+    .mc{position:absolute;top:1.2rem;right:1.2rem;background:rgba(255,255,255,.07);border:none;color:#fff;width:36px;height:36px;border-radius:10px;cursor:pointer;font-size:1.1rem}
+
+    /* LOGO */
+    .logo-n{font-family:var(--disp);font-size:1.8rem;color:#fff;line-height:1}
+    .logo-n span{background:var(--gAll);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+    .logo-s{font-size:.57rem;font-weight:800;letter-spacing:.18em;text-transform:uppercase;color:rgba(255,255,255,.35)}
+
+    /* HERO */
+    #hero{min-height:100vh;background:linear-gradient(160deg,#090413 0%,#130726 45%,#1e0d40 100%);display:flex;align-items:center;padding:8rem 0 5rem;position:relative;overflow:hidden}
+    .hbubs{position:absolute;inset:0;pointer-events:none;overflow:hidden}
+    .bub{position:absolute;border-radius:50%;opacity:.1;animation:bfloat linear infinite}
+    @keyframes bfloat{0%{transform:translateY(110%) rotate(0deg);opacity:0}10%{opacity:.1}90%{opacity:.1}100%{transform:translateY(-110%) rotate(720deg);opacity:0}}
+    .hring{position:absolute;right:-80px;top:50%;transform:translateY(-50%);width:420px;height:420px;pointer-events:none;opacity:.1}
+    .hr{position:absolute;inset:0;border-radius:50%;border:2px solid var(--pu);animation:spinr 20s linear infinite}
+    .hr:nth-child(2){inset:50px;border-color:var(--pk);border-style:dashed;animation:spinr 15s linear reverse infinite}
+    .hr:nth-child(3){inset:100px;border-color:var(--ye);border-style:solid;animation:spinr 30s linear infinite}
+    .hr:nth-child(4){inset:150px;border-color:var(--tl);border-style:dotted;animation:spinr 12s linear reverse infinite}
+    @keyframes spinr{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
+    .htag{display:inline-flex;align-items:center;gap:.5rem;background:rgba(155,95,224,.12);border:1.5px solid rgba(155,95,224,.3);border-radius:100px;padding:.35rem 1rem;margin-bottom:1.5rem}
+    .hdot{width:7px;height:7px;border-radius:50%;background:var(--pk);animation:hpulse 2s ease infinite}
+    @keyframes hpulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.4;transform:scale(.7)}}
+    .ht{font-size:clamp(2.8rem,7vw,5.5rem);font-family:var(--disp);line-height:1;color:#fff;margin-bottom:1.2rem}
+    .hs{font-size:1.05rem;font-weight:400;color:rgba(255,255,255,.6);line-height:1.75;max-width:500px;margin-bottom:2.5rem}
+    .hcta{display:flex;gap:1rem;flex-wrap:wrap;margin-bottom:3.5rem}
+    .hst{display:flex;gap:2.5rem;padding-top:2.5rem;border-top:1px solid rgba(255,255,255,.1);flex-wrap:wrap}
+    .stn{font-family:var(--disp);font-size:2rem;line-height:1;margin-bottom:.2rem}
+    .stl{font-size:.7rem;font-weight:800;color:rgba(255,255,255,.4);letter-spacing:.1em;text-transform:uppercase}
+
+    /* TICKER */
+    .tkw{overflow:hidden;padding:.72rem 0;background:linear-gradient(90deg,var(--pu),var(--pk),var(--or),var(--gr),var(--tl),var(--pu));background-size:400% 100%;animation:tkgr 6s linear infinite}
+    @keyframes tkgr{0%{background-position:0 50%}100%{background-position:400% 50%}}
+    .tki{display:flex;animation:tksc 28s linear infinite;width:max-content}
+    .tks{display:inline-flex;align-items:center;gap:1rem;padding:0 2rem;font-size:.76rem;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:#fff;white-space:nowrap}
+    .tkd{width:5px;height:5px;border-radius:50%;background:rgba(255,255,255,.5)}
+    @keyframes tksc{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+
+    /* CATEGORIES */
+    .cg{display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:1.1rem}
+    .cc2{background:rgba(255,255,255,.05);border:1.5px solid rgba(255,255,255,.09);border-radius:var(--r);padding:2rem 1rem;text-align:center;cursor:pointer;transition:var(--tr);position:relative;overflow:hidden}
+    .cc2::before{content:'';position:absolute;inset:0;background:var(--cg);opacity:0;transition:opacity .3s}
+    .cc2:hover{transform:translateY(-6px);border-color:transparent;box-shadow:0 16px 40px rgba(0,0,0,.4)}
+    .cc2:hover::before{opacity:.18}
+    .ce{font-size:2.2rem;display:block;margin-bottom:.7rem;position:relative;z-index:1}
+    .cn{font-weight:800;font-size:.88rem;color:#fff;position:relative;z-index:1;margin-bottom:.2rem}
+    .ck{font-size:.72rem;color:rgba(255,255,255,.38);position:relative;z-index:1}
+
+    /* BENEFITS */
+    .bnb{background:rgba(255,255,255,.03);border-top:1px solid rgba(255,255,255,.06);border-bottom:1px solid rgba(255,255,255,.06);padding:3rem 0}
+    .bng{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:2rem}
+    .bni{display:flex;align-items:flex-start;gap:1rem}
+    .bni-ic{width:48px;height:48px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:1.4rem;flex-shrink:0}
+    .bni-t{font-size:.84rem;font-weight:800;color:#fff;margin-bottom:.2rem}
+    .bni-d{font-size:.76rem;color:rgba(255,255,255,.4);line-height:1.5}
+
+    /* PRODUCTS */
+    .fb{display:flex;gap:.6rem;flex-wrap:wrap;justify-content:center;margin-bottom:2.5rem}
+    .fb-b{background:rgba(255,255,255,.06);border:1.5px solid rgba(255,255,255,.1);color:rgba(255,255,255,.55);padding:.48rem 1.2rem;border-radius:100px;font-size:.78rem;font-weight:800;cursor:pointer;transition:var(--tr)}
+    .fb-b:hover{color:#fff;border-color:rgba(255,255,255,.3)}
+    .fb-b.ac{background:var(--g1);border-color:transparent;color:#fff;box-shadow:0 4px 16px rgba(155,95,224,.4)}
+    .pg{display:grid;grid-template-columns:repeat(auto-fill,minmax(255px,1fr));gap:1.4rem}
+    .pc{background:rgba(255,255,255,.055);border:1.5px solid rgba(255,255,255,.09);border-radius:var(--r);overflow:hidden;transition:var(--tr);display:flex;flex-direction:column}
+    .pc:hover{transform:translateY(-6px);border-color:rgba(155,95,224,.4);box-shadow:0 16px 40px rgba(155,95,224,.18)}
+    .pi{aspect-ratio:1;display:flex;align-items:center;justify-content:center;font-size:4rem;position:relative;overflow:hidden}
+    .pb2{position:absolute;top:.75rem;left:.75rem;font-size:.62rem;font-weight:800;padding:.2rem .65rem;border-radius:100px;letter-spacing:.08em;text-transform:uppercase}
+    .bof{background:var(--pk);color:#fff}.bnw{background:var(--tl);color:#fff}
+    .pb3{padding:1.2rem;flex:1;display:flex;flex-direction:column}
+    .pc-cat{font-size:.64rem;font-weight:800;letter-spacing:.14em;text-transform:uppercase;margin-bottom:.4rem}
+    .pc-n{font-weight:800;font-size:.94rem;color:#fff;margin-bottom:.35rem;line-height:1.3}
+    .pc-d{font-size:.77rem;color:rgba(255,255,255,.42);line-height:1.5;flex:1;margin-bottom:1rem}
+    .pc-f{display:flex;align-items:center;justify-content:space-between;gap:.5rem}
+    .pc-p{font-family:var(--disp);font-size:1.3rem}
+    .pc-o{font-size:.73rem;color:rgba(255,255,255,.32);text-decoration:line-through;display:block}
+    .ab{width:38px;height:38px;border-radius:12px;background:var(--g1);color:#fff;display:flex;align-items:center;justify-content:center;font-size:1.2rem;font-weight:900;transition:var(--tr);cursor:pointer;flex-shrink:0}
+    .ab:hover{transform:scale(1.16);box-shadow:0 6px 20px rgba(155,95,224,.5)}
+    .lmw{text-align:center;margin-top:2.5rem}
+
+    /* ABOUT */
+    .ag{display:grid;grid-template-columns:1fr 1fr;gap:5rem;align-items:center}
+    @media(max-width:768px){.ag{grid-template-columns:1fr;gap:2.5rem}}
+    .aib{border-radius:var(--rxl);aspect-ratio:4/5;display:flex;align-items:center;justify-content:center;font-size:7rem;position:relative;overflow:hidden}
+    .afc{position:absolute;bottom:-1.5rem;right:-1.5rem;background:rgba(9,4,19,.92);backdrop-filter:blur(10px);border:1.5px solid rgba(155,95,224,.28);border-radius:var(--r);padding:1.2rem 1.5rem}
+    .afn{font-family:var(--disp);font-size:2rem;line-height:1}
+    .aft{font-size:.7rem;color:rgba(255,255,255,.4);margin-top:.2rem}
+    .afe{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-top:2rem}
+    .aff{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.08);border-radius:var(--rsm);padding:1rem}
+    .affi{font-size:1.4rem;margin-bottom:.4rem}
+    .afft{font-size:.82rem;font-weight:800;color:#fff;margin-bottom:.2rem}
+    .affd{font-size:.72rem;color:rgba(255,255,255,.38)}
+
+    /* MAP */
+    .mg{display:grid;grid-template-columns:1fr 1.6fr;gap:2.5rem;align-items:start}
+    @media(max-width:768px){.mg{grid-template-columns:1fr}}
+    .mic{background:rgba(255,255,255,.05);border:1.5px solid rgba(255,255,255,.09);border-radius:var(--r);padding:1.8rem}
+    .mit{font-family:var(--disp);font-size:1.45rem;color:#fff;margin-bottom:1.5rem;line-height:1.2}
+    .md{display:flex;align-items:flex-start;gap:.9rem;margin-bottom:1.4rem}
+    .mdi{width:40px;height:40px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:1.1rem;flex-shrink:0}
+    .mdl{font-size:.63rem;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.32);margin-bottom:.18rem}
+    .mdv{font-size:.88rem;font-weight:600;color:#fff;line-height:1.45}
+    .mact{display:flex;flex-direction:column;gap:.7rem;margin-top:1.8rem}
+    .mew{border-radius:var(--r);overflow:hidden;border:1.5px solid rgba(255,255,255,.09);background:rgba(255,255,255,.03)}
+    .mew iframe{width:100%;height:420px;display:block}
+    .map-action-row{margin-top:1rem;text-align:center}
+
+    /* TESTIMONIALS */
+    .tg{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1.2rem}
+    .tc{background:rgba(255,255,255,.05);border:1.5px solid rgba(255,255,255,.08);border-radius:var(--r);padding:1.8rem;transition:var(--tr)}
+    .tc:hover{transform:translateY(-5px);border-color:rgba(155,95,224,.25)}
+    .tst{font-size:.9rem;margin-bottom:.9rem}
+    .tt{font-size:.87rem;color:rgba(255,255,255,.62);line-height:1.7;font-style:italic;margin-bottom:1.4rem}
+    .tau{display:flex;align-items:center;gap:.75rem}
+    .tav{width:42px;height:42px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1.3rem;flex-shrink:0}
+    .tan{font-size:.84rem;font-weight:800;color:#fff}
+    .tar{font-size:.7rem;color:rgba(255,255,255,.32)}
+
+    /* CONTACT */
+    .cg2{display:grid;grid-template-columns:1fr 1.5fr;gap:4rem;align-items:start}
+    @media(max-width:768px){.cg2{grid-template-columns:1fr;gap:2.5rem}}
+    .cfb{background:rgba(255,255,255,.05);border:1.5px solid rgba(255,255,255,.09);border-radius:var(--r);padding:2rem}
+    .fg{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+    .fg-g{display:flex;flex-direction:column;gap:.38rem}
+    .fg-g.full{grid-column:1/-1}
+    .fl{font-size:.68rem;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.38)}
+    .fi{background:rgba(255,255,255,.07);border:1.5px solid rgba(255,255,255,.1);border-radius:12px;padding:.78rem 1rem;color:#fff;font-size:.87rem;outline:none;transition:border-color .2s;width:100%}
+    .fi:focus{border-color:var(--pu)}
+    .fi::placeholder{color:rgba(255,255,255,.2)}
+    textarea.fi{resize:vertical;min-height:110px}
+
+    /* FOOTER */
+    footer{background:var(--darker);border-top:1px solid rgba(255,255,255,.06);padding:5rem 0 2rem}
+    .fg2{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:3rem;margin-bottom:4rem}
+    @media(max-width:900px){.fg2{grid-template-columns:1fr 1fr;gap:2rem}}
+    @media(max-width:500px){.fg2{grid-template-columns:1fr}}
+    .fbr p{font-size:.82rem;color:rgba(255,255,255,.38);line-height:1.7;margin-top:1rem;max-width:260px}
+    .fso{display:flex;gap:.6rem;margin-top:1.3rem}
+    .fsb{width:38px;height:38px;border-radius:12px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);display:flex;align-items:center;justify-content:center;font-size:1rem;cursor:pointer;transition:var(--tr)}
+    .fsb:hover{background:rgba(155,95,224,.2);border-color:var(--pu);transform:translateY(-3px)}
+    .fct{font-size:.7rem;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.45);margin-bottom:1.2rem}
+    .fli{display:flex;flex-direction:column;gap:.65rem}
+    .fli a{font-size:.82rem;color:rgba(255,255,255,.42);transition:color .2s}
+    .fli a:hover{color:#fff}
+    .fbt{border-top:1px solid rgba(255,255,255,.06);padding-top:2rem;display:flex;justify-content:space-between;flex-wrap:wrap;gap:1rem}
+    .fcp{font-size:.76rem;color:rgba(255,255,255,.22)}
+    .fle{display:flex;gap:1.5rem}
+    .fle a{font-size:.76rem;color:rgba(255,255,255,.22);transition:color .2s}
+    .fle a:hover{color:rgba(255,255,255,.45)}
+
+    /* CART SIDEBAR */
+    .cov{position:fixed;inset:0;background:rgba(0,0,0,.72);z-index:600;opacity:0;pointer-events:none;transition:opacity .3s}
+    .cov.on{opacity:1;pointer-events:auto}
+    .csd{position:fixed;top:0;right:-500px;width:100%;max-width:440px;height:100vh;background:var(--darker);border-left:1px solid rgba(255,255,255,.08);z-index:700;display:flex;flex-direction:column;transition:right .4s cubic-bezier(.4,0,.2,1)}
+    .csd.on{right:0}
+    .chd{padding:1.5rem;border-bottom:1px solid rgba(255,255,255,.07);display:flex;align-items:center;justify-content:space-between}
+    .cht{font-family:var(--disp);font-size:1.3rem;color:#fff}
+    .cx{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12);color:#fff;width:34px;height:34px;border-radius:10px;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:1rem;transition:var(--tr)}
+    .cx:hover{background:rgba(240,117,181,.2);border-color:var(--pk)}
+    .clt{flex:1;overflow-y:auto;padding:1rem}
+    .cem{display:flex;flex-direction:column;align-items:center;justify-content:center;height:100%;text-align:center;color:rgba(255,255,255,.28)}
+    .cem span{font-size:3.5rem;margin-bottom:.75rem}
+    .ci{display:flex;gap:1rem;padding:.9rem 0;border-bottom:1px solid rgba(255,255,255,.06)}
+    .cii{width:58px;height:58px;background:rgba(255,255,255,.06);border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:1.7rem;flex-shrink:0}
+    .ciin{flex:1}
+    .cin{font-size:.82rem;font-weight:700;color:#fff;margin-bottom:.15rem}
+    .cip{font-size:.77rem;color:var(--pk);font-weight:700}
+    .ciq{display:flex;align-items:center;gap:.5rem;margin-top:.4rem}
+    .qb{width:24px;height:24px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12);border-radius:6px;color:#fff;display:flex;align-items:center;justify-content:center;font-size:.9rem;cursor:pointer;transition:var(--tr)}
+    .qb:hover{background:rgba(155,95,224,.3);border-color:var(--pu)}
+    .qn{font-size:.82rem;font-weight:700;color:#fff;min-width:20px;text-align:center}
+    .cdl{background:none;color:rgba(255,255,255,.22);font-size:.9rem;align-self:flex-start;transition:color .2s}
+    .cdl:hover{color:var(--rd)}
+    .cft{padding:1.2rem 1.5rem;border-top:1px solid rgba(255,255,255,.07)}
+    .ctr{display:flex;justify-content:space-between;align-items:center;margin-bottom:1.2rem}
+    .ctl{font-size:.78rem;color:rgba(255,255,255,.42);text-transform:uppercase;letter-spacing:.08em;font-weight:700}
+    .ctv{font-family:var(--disp);font-size:1.5rem}
+
+    /* CHECKOUT */
+    .com{position:fixed;inset:0;background:rgba(0,0,0,.9);z-index:800;display:flex;align-items:center;justify-content:center;padding:1rem;opacity:0;pointer-events:none;transition:opacity .3s}
+    .com.on{opacity:1;pointer-events:auto}
+    .cob{background:var(--darker);border:1px solid rgba(255,255,255,.09);border-radius:var(--rxl);max-width:610px;width:100%;max-height:92vh;overflow-y:auto;transform:scale(.95);transition:transform .3s}
+    .com.on .cob{transform:scale(1)}
+    .cot{padding:1.5rem 1.5rem 0;display:flex;align-items:center;justify-content:space-between}
+    .cott{font-family:var(--disp);font-size:1.35rem;color:#fff}
+    .coss{display:flex;align-items:center;padding:1.2rem 1.5rem;border-bottom:1px solid rgba(255,255,255,.07)}
+    .cos{display:flex;align-items:center;gap:.5rem;font-size:.7rem;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:rgba(255,255,255,.32)}
+    .cos.ac{color:var(--pk)}
+    .cos.dn{color:rgba(255,255,255,.32)}
+    .cosn{width:24px;height:24px;border-radius:50%;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);display:flex;align-items:center;justify-content:center;font-size:.68rem}
+    .cos.ac .cosn{background:var(--g1);border-color:transparent;color:#fff}
+    .cos.dn .cosn{background:rgba(92,184,92,.2);border-color:var(--gr);color:var(--gr)}
+    .sln{flex:1;height:1px;background:rgba(255,255,255,.08);margin:0 .5rem}
+    .cof{padding:1.5rem}
+    .cost2{font-size:.93rem;font-weight:800;color:#fff;margin-bottom:1rem}
+    .poo{display:grid;grid-template-columns:1fr 1fr;gap:.7rem;margin-bottom:1.2rem}
+    .poo-o{background:rgba(255,255,255,.05);border:1.5px solid rgba(255,255,255,.1);border-radius:12px;padding:.8rem 1rem;cursor:pointer;display:flex;align-items:center;gap:.6rem;font-size:.79rem;font-weight:700;color:rgba(255,255,255,.52);transition:var(--tr)}
+    .poo-o:hover{color:#fff;border-color:rgba(255,255,255,.25)}
+    .poo-o.sl{border-color:var(--pu);color:#fff;background:rgba(155,95,224,.12)}
+    .soo{display:flex;flex-direction:column;gap:.7rem;margin-bottom:1.2rem}
+    .so{background:rgba(255,255,255,.05);border:1.5px solid rgba(255,255,255,.1);border-radius:12px;padding:.9rem 1rem;cursor:pointer;display:flex;align-items:center;gap:1rem;transition:var(--tr)}
+    .so:hover{border-color:rgba(255,255,255,.25)}
+    .so.sl{border-color:var(--pu);background:rgba(155,95,224,.1)}
+    .so input[type=radio]{accent-color:var(--pu)}
+    .soi{flex:1}
+    .son{font-size:.82rem;font-weight:800;color:#fff}
+    .sod{font-size:.7rem;color:rgba(255,255,255,.38)}
+    .sop{font-size:.82rem;font-weight:800;color:var(--pk)}
+    .cosu{background:rgba(255,255,255,.04);border-radius:12px;padding:1rem;margin-bottom:1.2rem}
+    .csr{display:flex;justify-content:space-between;font-size:.8rem;color:rgba(255,255,255,.42);margin-bottom:.45rem}
+    .csr.tot{font-size:1rem;font-weight:800;color:#fff;border-top:1px solid rgba(255,255,255,.08);padding-top:.5rem;margin-top:.5rem;margin-bottom:0}
+    .csr.tot span:last-child{color:var(--pk)}
+    .coa{display:flex;gap:.75rem;justify-content:flex-end;flex-wrap:wrap;margin-top:1.2rem}
+    .tdw{background:rgba(255,255,255,.05);border-radius:12px;padding:1rem;margin-top:1rem;font-size:.8rem;color:rgba(255,255,255,.55);line-height:2}
+
+    /* SUCCESS */
+    .sm{position:fixed;inset:0;background:rgba(0,0,0,.92);z-index:900;display:flex;align-items:center;justify-content:center;padding:1rem;opacity:0;pointer-events:none;transition:opacity .3s}
+    .sm.on{opacity:1;pointer-events:auto}
+    .sb{background:var(--darker);border:1.5px solid rgba(155,95,224,.3);border-radius:var(--rxl);padding:3rem 2rem;max-width:440px;width:100%;text-align:center}
+    .si{width:80px;height:80px;border-radius:50%;background:rgba(92,184,92,.1);border:2px solid var(--gr);display:flex;align-items:center;justify-content:center;font-size:2.5rem;margin:0 auto 1.5rem}
+    .st2{font-family:var(--disp);font-size:1.8rem;color:#fff;margin-bottom:.75rem}
+    .ss{font-size:.87rem;color:rgba(255,255,255,.48);line-height:1.7;margin-bottom:1.4rem}
+    .on2{background:rgba(255,255,255,.05);border-radius:10px;padding:.7rem 1rem;margin-bottom:1.4rem;font-family:monospace;font-size:.83rem;color:var(--pu);letter-spacing:.1em}
+    .sbs{display:flex;gap:.75rem;justify-content:center;flex-wrap:wrap}
+
+    /* WA FLOAT */
+    .waf{position:fixed;bottom:2rem;left:2rem;z-index:550}
+    .wab{width:58px;height:58px;background:#25D366;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1.7rem;box-shadow:0 6px 24px rgba(37,211,102,.5);cursor:pointer;transition:var(--tr);animation:wap 3s ease infinite}
+    @keyframes wap{0%,100%{box-shadow:0 6px 24px rgba(37,211,102,.5)}50%{box-shadow:0 6px 36px rgba(37,211,102,.8),0 0 0 10px rgba(37,211,102,.1)}}
+    .wab:hover{transform:scale(1.12)}
+    .wtt{position:absolute;left:68px;top:50%;transform:translateY(-50%);background:rgba(9,4,19,.96);border:1px solid rgba(37,211,102,.25);border-radius:10px;padding:.48rem .9rem;font-size:.76rem;font-weight:800;color:#fff;white-space:nowrap;opacity:0;pointer-events:none;transition:opacity .3s}
+    .waf:hover .wtt{opacity:1}
+
+    /* CHATBOT */
+    .chbw{position:fixed;bottom:2rem;right:2rem;z-index:550}
+    .cht2{width:58px;height:58px;background:var(--g1);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1.5rem;box-shadow:0 6px 24px rgba(155,95,224,.5);cursor:pointer;transition:var(--tr)}
+    .cht2:hover{transform:scale(1.12);box-shadow:0 10px 36px rgba(155,95,224,.7)}
+    .chw{position:absolute;bottom:70px;right:0;width:308px;background:var(--darker);border:1.5px solid rgba(255,255,255,.09);border-radius:var(--r);overflow:hidden;box-shadow:0 16px 48px rgba(0,0,0,.5);opacity:0;transform:translateY(20px) scale(.95);pointer-events:none;transition:all .3s cubic-bezier(.4,0,.2,1)}
+    .chw.on{opacity:1;transform:translateY(0) scale(1);pointer-events:auto}
+    .chh{background:var(--g1);padding:.95rem 1.2rem;display:flex;align-items:center;gap:.7rem}
+    .chav{width:34px;height:34px;background:rgba(255,255,255,.2);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1rem}
+    .chnm{font-size:.82rem;font-weight:800;color:#fff}
+    .chst{font-size:.68rem;color:rgba(255,255,255,.7)}
+    .chb{padding:1rem;max-height:260px;overflow-y:auto;display:flex;flex-direction:column;gap:.7rem}
+    .cbb{background:rgba(255,255,255,.07);border-radius:14px;border-bottom-left-radius:4px;padding:.68rem .9rem;font-size:.79rem;color:rgba(255,255,255,.8);line-height:1.5;max-width:88%}
+    .cbb.u{background:rgba(155,95,224,.2);border:1px solid rgba(155,95,224,.25);border-bottom-right-radius:4px;border-bottom-left-radius:14px;align-self:flex-end}
+    .cho{display:flex;flex-wrap:wrap;gap:.4rem}
+    .cho-b{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12);color:rgba(255,255,255,.7);font-size:.7rem;font-weight:700;padding:.28rem .65rem;border-radius:100px;cursor:pointer;transition:var(--tr)}
+    .cho-b:hover{background:rgba(155,95,224,.2);border-color:var(--pu);color:#fff}
+    .chiw{padding:.68rem;border-top:1px solid rgba(255,255,255,.07);display:flex;gap:.4rem}
+    .chin{flex:1;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.1);border-radius:100px;padding:.44rem .9rem;color:#fff;font-size:.77rem;outline:none}
+    .chin:focus{border-color:var(--pu)}
+    .chs{width:32px;height:32px;background:var(--g1);border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:.85rem;color:#fff;transition:var(--tr);flex-shrink:0}
+    .chs:hover{transform:scale(1.1)}
+
+    /* TOAST */
+    .tst2{position:fixed;top:5rem;right:1.5rem;z-index:1000;background:var(--darker);border:1.5px solid rgba(155,95,224,.3);border-radius:var(--r);padding:.88rem 1.3rem;display:flex;align-items:center;gap:.72rem;font-size:.8rem;font-weight:600;box-shadow:0 8px 32px rgba(0,0,0,.5);transform:translateX(130%);transition:transform .4s cubic-bezier(.4,0,.2,1);max-width:300px}
+    .tst2.on{transform:translateX(0)}
+    .tic{font-size:1.1rem}
+
+    /* SCROLL ANIM */
+    .fi2{opacity:0;transform:translateY(22px);transition:opacity .6s ease,transform .6s ease}
+    .fi2.v{opacity:1;transform:translateY(0)}
+
+    @media(max-width:600px){.poo{grid-template-columns:1fr}.fg{grid-template-columns:1fr}.fbt{flex-direction:column;text-align:center}.hring{display:none}}
+  </style>
+</head>
+<body>
+
+<canvas id="bgc"></canvas>
+
+<!-- NAVBAR -->
+<nav id="nb">
+  <div class="wrap ni">
+    <a href="#hero">
+      <div class="logo-n">d'<span>Pelos</span></div>
+      <div class="logo-s">Distribuidora Profesional</div>
+    </a>
+    <ul class="nl">
+      <li><a href="#hero">Inicio</a></li>
+      <li><a href="#catalog-section">Catálogo</a></li>
+      <li><a href="#ubicacion">Ubicación</a></li>
+      <li><a href="#about">Nosotros</a></li>
+      <li><a href="#contact">Contacto</a></li>
+    </ul>
+    <div class="na">
+      <button class="cbt" onclick="togCart()">🛒<span class="cc" id="cnt">0</span></button>
+      <a href="https://wa.me/5493885012254" target="_blank" class="btn btn-pu" style="padding:.6rem 1.2rem;font-size:.77rem;">💬 WhatsApp</a>
+      <button class="hbg" onclick="togMob()"><span></span><span></span><span></span></button>
+    </div>
+  </div>
+</nav>
+
+<div class="mov" id="mov" onclick="togMob()"></div>
+<div class="mm" id="mm">
+  <button class="mc" onclick="togMob()">✕</button>
+  <a href="#hero" onclick="togMob()">🏠 Inicio</a>
+  <a href="#catalog-section" onclick="togMob()">🛍️ Catálogo</a>
+  <a href="#ubicacion" onclick="togMob()">📍 Ubicación</a>
+  <a href="#about" onclick="togMob()">⭐ Nosotros</a>
+  <a href="#contact" onclick="togMob()">✉️ Contacto</a>
+  <div style="margin-top:1.5rem"><a href="https://wa.me/5493885012254" target="_blank" class="btn btn-pu" style="width:100%">💬 WhatsApp</a></div>
+</div>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hbubs" id="hbubs"></div>
+  <div class="hring"><div class="hr"></div><div class="hr"></div><div class="hr"></div><div class="hr"></div></div>
+  <div class="wrap" style="position:relative;z-index:2">
+    <div style="max-width:680px">
+      <div class="htag fi2">
+        <span class="hdot"></span>
+        <span style="font-size:.7rem;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.7)">Jujuy · Distribución Mayorista</span>
+      </div>
+      <h1 class="ht fi2">Todo para tu<br><span class="gt">peluquería</span><br>en un lugar</h1>
+      <p class="hs fi2">Distribuidora mayorista de insumos profesionales para peluquerías, barberías y centros de estética. Stock permanente · Precios mayoristas · Envíos a toda la provincia.</p>
+      <div class="hcta fi2">
+        <button class="btn btn-pu" onclick="document.getElementById('catalog-section').scrollIntoView({behavior:'smooth'})">🛍️ Ver catálogo</button>
+        <a href="https://wa.me/5493885012254?text=Hola%20d'Pelos!%20Quiero%20consultar%20sobre%20productos" target="_blank" class="btn btn-gh">💬 Consultanos</a>
+      </div>
+      <div class="hst fi2">
+        <div><div class="stn gt">+500</div><div class="stl">Productos</div></div>
+        <div><div class="stn" style="color:var(--pk)">+1200</div><div class="stl">Clientes</div></div>
+        <div><div class="stn" style="color:var(--ye)">15+</div><div class="stl">Años</div></div>
+        <div><div class="stn" style="color:var(--tl)">48h</div><div class="stl">Envíos express</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TICKER -->
+<div class="tkw"><div class="tki" id="tkr"></div></div>
+
+<!-- CATEGORIES -->
+<section class="sp">
+  <div class="wrap">
+    <div class="sh fi2">
+      <span class="lbl">✦ Categorías</span>
+      <h2 class="sh-t">Encontrá lo que necesitás</h2>
+      <p class="sh-s">Todo el rubro en un solo lugar con precios mayoristas para profesionales.</p>
+    </div>
+    <div class="cg">
+      <div class="cc2 fi2" style="--cg:var(--g1)" onclick="filP('cabello',null)"><span class="ce">💆‍♀️</span><div class="cn">Cabello</div><div class="ck">Tinturas, tratamientos, shampoos</div></div>
+      <div class="cc2 fi2" style="--cg:linear-gradient(135deg,#f075b5,#f9a825)" onclick="filP('uñas',null)"><span class="ce">💅</span><div class="cn">Uñas</div><div class="ck">Acrílico, gel, esmaltes</div></div>
+      <div class="cc2 fi2" style="--cg:var(--g3)" onclick="filP('estetica',null)"><span class="ce">✨</span><div class="cn">Estética</div><div class="ck">Depilación, faciales, corporales</div></div>
+      <div class="cc2 fi2" style="--cg:var(--g2)" onclick="filP('herramientas',null)"><span class="ce">✂️</span><div class="cn">Herramientas</div><div class="ck">Tijeras, cepillos, planchas</div></div>
+      <div class="cc2 fi2" style="--cg:linear-gradient(135deg,#f9a825,#e53935)" onclick="filP('barberia',null)"><span class="ce">🪒</span><div class="cn">Barbería</div><div class="ck">Navajas, cremas, aceites</div></div>
+      <div class="cc2 fi2" style="--cg:linear-gradient(135deg,#e53935,#9b5fe0)" onclick="filP('mobiliario',null)"><span class="ce">🪑</span><div class="cn">Mobiliario</div><div class="ck">Sillones, carritos, espejos</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- BENEFITS -->
+<div class="bnb">
+  <div class="wrap">
+    <div class="bng">
+      <div class="bni fi2"><div class="bni-ic" style="background:rgba(155,95,224,.15)">🚚</div><div><div class="bni-t">Envíos a todo Jujuy</div><div class="bni-d">Express 48h o estándar a toda la provincia</div></div></div>
+      <div class="bni fi2"><div class="bni-ic" style="background:rgba(240,117,181,.15)">💳</div><div><div class="bni-t">Múltiples medios de pago</div><div class="bni-d">Tarjeta, Mercado Pago, transferencia</div></div></div>
+      <div class="bni fi2"><div class="bni-ic" style="background:rgba(249,168,37,.15)">📦</div><div><div class="bni-t">Stock garantizado</div><div class="bni-d">+500 productos siempre disponibles</div></div></div>
+      <div class="bni fi2"><div class="bni-ic" style="background:rgba(92,184,92,.15)">🏆</div><div><div class="bni-t">Marcas líderes</div><div class="bni-d">Nacionales e importadas certificadas</div></div></div>
+    </div>
+  </div>
+</div>
+
+<!-- CATALOG -->
+<section id="catalog-section" class="sp">
+  <div class="wrap">
+    <div class="sh fi2">
+      <span class="lbl">🛍️ Tienda</span>
+      <h2 class="sh-t">Catálogo de productos</h2>
+      <p class="sh-s">Precios mayoristas para profesionales. ¡Comprá con confianza!</p>
+    </div>
+    <div class="fb" id="fbr">
+      <button class="fb-b ac" onclick="filP('todos',this)">Todos</button>
+      <button class="fb-b" onclick="filP('cabello',this)">💆‍♀️ Cabello</button>
+      <button class="fb-b" onclick="filP('uñas',this)">💅 Uñas</button>
+      <button class="fb-b" onclick="filP('estetica',this)">✨ Estética</button>
+      <button class="fb-b" onclick="filP('herramientas',this)">✂️ Herramientas</button>
+      <button class="fb-b" onclick="filP('barberia',this)">🪒 Barbería</button>
+    </div>
+    <div class="pg" id="pg"></div>
+    <div class="lmw fi2"><button class="btn btn-ol" id="lmb" onclick="loadMore()">Cargar más →</button></div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about" class="sp" style="background:rgba(255,255,255,.02)">
+  <div class="wrap">
+    <div class="ag">
+      <div class="aib fi2" style="background:linear-gradient(135deg,rgba(155,95,224,.1),rgba(240,117,181,.1));border:1.5px solid rgba(155,95,224,.2)">
+        <span style="font-size:7rem">💇‍♀️</span>
+        <div class="afc"><div class="afn gt">15+</div><div class="aft">Años en el sector</div></div>
+      </div>
+      <div class="fi2">
+        <span class="lbl">Sobre d'Pelos</span>
+        <h2 style="font-family:var(--disp);font-size:clamp(1.8rem,4vw,2.8rem);color:#fff;margin:1rem 0 1.2rem;line-height:1.1">Profesionales que<br><span class="gt">entienden tu negocio</span></h2>
+        <p style="color:rgba(255,255,255,.58);font-size:.91rem;line-height:1.8;margin-bottom:.8rem">Desde hace más de 15 años, d'Pelos es el distribuidor de confianza de peluquerías, barberías y centros de estética en Jujuy y el NOA. Nacimos del sector, conocemos sus necesidades y trabajamos cada día para satisfacerlas.</p>
+        <p style="color:rgba(255,255,255,.4);font-size:.87rem;line-height:1.8;margin-bottom:2rem">Nuestra misión: que cada profesional acceda a los mejores insumos, a precios justos, con la agilidad que su negocio necesita. Estamos en Gral. Balcarce 242, San Salvador de Jujuy.</p>
+        <div class="afe">
+          <div class="aff"><div class="affi">🏭</div><div class="afft">Depósito propio</div><div class="affd">Stock permanente en Jujuy</div></div>
+          <div class="aff"><div class="affi">🌎</div><div class="afft">Importación directa</div><div class="affd">Sin intermediarios</div></div>
+          <div class="aff"><div class="affi">📞</div><div class="afft">Atención directa</div><div class="affd">Asesor para tu cuenta</div></div>
+          <div class="aff"><div class="affi">🔄</div><div class="afft">Cambios</div><div class="affd">Política flexible</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- MAP -->
+<section id="ubicacion" class="sp">
+  <div class="wrap">
+    <div class="sh fi2">
+      <span class="lbl">📍 Dónde estamos</span>
+      <h2 class="sh-t">Visitanos en Jujuy</h2>
+      <p class="sh-s">Vení a conocer nuestro local en el centro de San Salvador de Jujuy.</p>
+    </div>
+    <div class="mg">
+      <div class="mic fi2">
+        <h3 class="mit">d'Pelos<br><span class="gt">Distribuciones</span></h3>
+        <div class="md">
+          <div class="mdi" style="background:rgba(155,95,224,.14)">📍</div>
+          <div><div class="mdl">Dirección</div><div class="mdv">Gral. Balcarce 242<br>San Salvador de Jujuy, Jujuy</div></div>
+        </div>
+        <div class="md">
+          <div class="mdi" style="background:rgba(37,211,102,.14)">💬</div>
+          <div><div class="mdl">WhatsApp</div><div class="mdv">+54 9 3885 01-2254</div></div>
+        </div>
+        <div class="md">
+          <div class="mdi" style="background:rgba(249,168,37,.14)">🕐</div>
+          <div><div class="mdl">Horario</div><div class="mdv">Lun–Vie: 9:00 a 18:00 hs<br>Sáb: 9:00 a 13:00 hs</div></div>
+        </div>
+        <div class="mact">
+          <a href="https://www.google.com/maps/dir/?api=1&destination=Gral.+Balcarce+242,+San+Salvador+de+Jujuy,+Jujuy,+Argentina&travelmode=driving" target="_blank" class="btn btn-pu" style="width:100%">🗺️ Cómo llegar — Google Maps</a>
+          <a href="https://wa.me/5493885012254?text=Hola%20d'Pelos!%20Quiero%20consultar%20la%20direcci%C3%B3n%20del%20local" target="_blank" class="btn btn-tl" style="width:100%">💬 Preguntar por WhatsApp</a>
+          <a href="https://maps.apple.com/?q=Gral.+Balcarce+242+San+Salvador+de+Jujuy" target="_blank" class="btn btn-gh" style="width:100%">🍎 Apple Maps</a>
+        </div>
+      </div>
+      <div class="fi2">
+        <div class="mew">
+          <iframe
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3628.14!2d-65.303!3d-24.186!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x941f3d6a7b63e5b5%3A0xdeadbeefcafe!2sGral.%20Balcarce%20242%2C%20Y4600%20San%20Salvador%20de%20Jujuy%2C%20Jujuy!5e0!3m2!1ses-419!2sar!4v1700000000000!5m2!1ses-419!2sar"
+            allowfullscreen=""
+            loading="lazy"
+            referrerpolicy="no-referrer-when-downgrade"
+            title="d'Pelos — Gral. Balcarce 242, San Salvador de Jujuy">
+          </iframe>
+        </div>
+        <div class="map-action-row" style="margin-top:1rem">
+          <a href="https://www.google.com/maps/dir/?api=1&destination=Gral.+Balcarce+242,+San+Salvador+de+Jujuy,+Jujuy,+Argentina&travelmode=driving" target="_blank" class="btn btn-or">🚗 Iniciar ruta en Google Maps</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section id="testimonials" class="sp" style="background:rgba(255,255,255,.02)">
+  <div class="wrap">
+    <div class="sh fi2">
+      <span class="lbl">⭐ Opiniones</span>
+      <h2 class="sh-t">Lo que dicen nuestros clientes</h2>
+    </div>
+    <div class="tg">
+      <div class="tc fi2"><div class="tst" style="color:var(--ye)">★★★★★</div><p class="tt">"Hace 5 años que compro en d'Pelos y no los cambiaría. Siempre tienen todo, los precios son justos y te tratan muy bien. El mejor distribuidor del NOA."</p><div class="tau"><div class="tav" style="background:rgba(155,95,224,.2)">💇‍♀️</div><div><div class="tan">Luciana Ferreyra</div><div class="tar">Peluquería Lú — Jujuy</div></div></div></div>
+      <div class="tc fi2"><div class="tst" style="color:var(--ye)">★★★★★</div><p class="tt">"Abrí mi centro estético y desde el primer día trabajo con d'Pelos. Me asesoran en cada compra, los productos son de primera y siempre me llegan rápido."</p><div class="tau"><div class="tav" style="background:rgba(240,117,181,.2)">✨</div><div><div class="tan">Valeria Méndez</div><div class="tar">Centro Estético Valú — Palpalá</div></div></div></div>
+      <div class="tc fi2"><div class="tst" style="color:var(--ye)">★★★★★</div><p class="tt">"Pido por WhatsApp, pago con Mercado Pago y me llega en dos días. No puede ser más fácil. d'Pelos me solucionó el abastecimiento de mi barbería."</p><div class="tau"><div class="tav" style="background:rgba(249,168,37,.2)">🪒</div><div><div class="tan">Martín Ríos</div><div class="tar">Barbería The Cut — Jujuy</div></div></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact" class="sp">
+  <div class="wrap">
+    <div class="sh fi2"><span class="lbl">✉️ Contacto</span><h2 class="sh-t">Hablemos de tu negocio</h2></div>
+    <div class="cg2">
+      <div class="fi2">
+        <div class="md"><div class="mdi" style="background:rgba(155,95,224,.14);border-radius:12px">📍</div><div><div class="mdl">Local</div><div class="mdv">Gral. Balcarce 242, San Salvador de Jujuy</div></div></div>
+        <div class="md"><div class="mdi" style="background:rgba(37,211,102,.14);border-radius:12px">📱</div><div><div class="mdl">WhatsApp</div><div class="mdv">+54 9 3885 01-2254</div></div></div>
+        <div class="md"><div class="mdi" style="background:rgba(240,117,181,.14);border-radius:12px">✉️</div><div><div class="mdl">Email</div><div class="mdv">ventas@dpelos.com.ar</div></div></div>
+        <div class="md"><div class="mdi" style="background:rgba(249,168,37,.14);border-radius:12px">🕐</div><div><div class="mdl">Horario</div><div class="mdv">Lun–Vie: 9–18hs · Sáb: 9–13hs</div></div></div>
+        <div style="display:flex;flex-direction:column;gap:.7rem;margin-top:1rem">
+          <a href="https://wa.me/5493885012254?text=Hola%20d'Pelos!%20Tengo%20una%20consulta" target="_blank" class="btn btn-pu">💬 Escribir por WhatsApp</a>
+          <a href="https://www.google.com/maps/dir/?api=1&destination=Gral.+Balcarce+242,+San+Salvador+de+Jujuy" target="_blank" class="btn btn-tl">🗺️ Cómo llegar</a>
+        </div>
+      </div>
+      <div class="cfb fi2">
+        <h3 style="font-family:var(--disp);font-size:1.2rem;color:#fff;margin-bottom:1.2rem">Envianos tu consulta</h3>
+        <div class="fg">
+          <div class="fg-g"><label class="fl">Nombre *</label><input type="text" class="fi" placeholder="Tu nombre" id="cn"></div>
+          <div class="fg-g"><label class="fl">Email *</label><input type="email" class="fi" placeholder="tu@email.com" id="ce"></div>
+          <div class="fg-g"><label class="fl">Teléfono</label><input type="tel" class="fi" placeholder="+54 9 388..." id="ct"></div>
+          <div class="fg-g"><label class="fl">Rubro</label><select class="fi" id="cr"><option value="">Seleccioná...</option><option>Peluquería</option><option>Barbería</option><option>Centro estético</option><option>Manicura / Nail art</option><option>Otro</option></select></div>
+          <div class="fg-g full"><label class="fl">Mensaje *</label><textarea class="fi" placeholder="Contanos qué necesitás..." id="cm"></textarea></div>
+        </div>
+        <button class="btn btn-pu" style="width:100%;margin-top:1.2rem" onclick="submitC()">Enviar consulta →</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="wrap">
+    <div class="fg2">
+      <div class="fbr">
+        <div class="logo-n" style="font-size:2rem">d'<span>Pelos</span></div>
+        <p>Distribuidora mayorista de insumos profesionales para peluquerías y estéticas en Jujuy. Gral. Balcarce 242, San Salvador de Jujuy.</p>
+        <div class="fso">
+          <a href="#" class="fsb">📸</a><a href="#" class="fsb">👤</a>
+          <a href="https://wa.me/5493885012254" class="fsb" target="_blank">💬</a><a href="#" class="fsb">🎵</a>
+        </div>
+      </div>
+      <div><div class="fct">Categorías</div><ul class="fli"><li><a href="#" onclick="filP('cabello',null)">Cabello</a></li><li><a href="#" onclick="filP('uñas',null)">Uñas</a></li><li><a href="#" onclick="filP('estetica',null)">Estética</a></li><li><a href="#" onclick="filP('herramientas',null)">Herramientas</a></li><li><a href="#" onclick="filP('barberia',null)">Barbería</a></li></ul></div>
+      <div><div class="fct">Empresa</div><ul class="fli"><li><a href="#about">Nosotros</a></li><li><a href="#ubicacion">Ubicación</a></li><li><a href="#contact">Contacto</a></li><li><a href="#">Cómo comprar</a></li><li><a href="#">Envíos</a></li></ul></div>
+      <div><div class="fct">Pago</div><ul class="fli"><li><a href="#">📱 Mercado Pago</a></li><li><a href="#">💳 Tarjeta créd/déb</a></li><li><a href="#">🏦 Transferencia</a></li><li><a href="#">💵 Efectivo en local</a></li></ul></div>
+    </div>
+    <div class="fbt">
+      <span class="fcp">© 2025 d'Pelos Distribuciones — San Salvador de Jujuy</span>
+      <div class="fle"><a href="#">Términos</a><a href="#">Privacidad</a></div>
+    </div>
+  </div>
+</footer>
+
+<!-- CART -->
+<div class="cov" id="cov" onclick="togCart()"></div>
+<div class="csd" id="csd">
+  <div class="chd"><span class="cht">🛒 Tu carrito</span><button class="cx" onclick="togCart()">✕</button></div>
+  <div class="clt" id="clt"><div class="cem"><span>🛒</span><p>Tu carrito está vacío</p></div></div>
+  <div class="cft" id="cft" style="display:none">
+    <div class="ctr"><span class="ctl">Subtotal</span><span class="ctv gt" id="ctv">$0</span></div>
+    <button class="btn btn-pu" style="width:100%" onclick="openCO()">Finalizar compra →</button>
+    <button class="btn btn-gh" style="width:100%;margin-top:.6rem" onclick="togCart()">Seguir comprando</button>
+  </div>
+</div>
+
+<!-- CHECKOUT -->
+<div class="com" id="com">
+  <div class="cob">
+    <div class="cot"><span class="cott">Finalizar compra</span><button class="cx" onclick="closeCO()">✕</button></div>
+    <div class="coss">
+      <div class="cos ac" id="cs1"><span class="cosn">1</span><span>Datos</span></div>
+      <div class="sln"></div>
+      <div class="cos" id="cs2"><span class="cosn">2</span><span>Envío</span></div>
+      <div class="sln"></div>
+      <div class="cos" id="cs3"><span class="cosn">3</span><span>Pago</span></div>
+    </div>
+    <div class="cof">
+      <!-- Step 1 -->
+      <div id="s1">
+        <div class="cost2">Datos personales</div>
+        <div class="fg">
+          <div class="fg-g"><label class="fl">Nombre *</label><input type="text" class="fi" id="o-n" placeholder="Tu nombre"></div>
+          <div class="fg-g"><label class="fl">Apellido *</label><input type="text" class="fi" id="o-a" placeholder="Apellido"></div>
+          <div class="fg-g"><label class="fl">Email *</label><input type="email" class="fi" id="o-e" placeholder="tu@email.com"></div>
+          <div class="fg-g"><label class="fl">Teléfono</label><input type="tel" class="fi" id="o-t" placeholder="+54 9 388..."></div>
+          <div class="fg-g full"><label class="fl">DNI / CUIT</label><input type="text" class="fi" id="o-d" placeholder="Número de documento"></div>
+        </div>
+        <div class="coa"><button class="btn btn-pu" onclick="goS(2)">Continuar →</button></div>
+      </div>
+      <!-- Step 2 -->
+      <div id="s2" style="display:none">
+        <div class="cost2">Método de envío</div>
+        <div class="soo">
+          <label class="so sl" onclick="selSh(this,0)"><input type="radio" name="sh" checked><div class="soi"><div class="son">🏪 Retiro en local</div><div class="sod">Balcarce 242 · Jujuy · Lun-Vie 9-18hs</div></div><span class="sop">Gratis</span></label>
+          <label class="so" onclick="selSh(this,2500)"><input type="radio" name="sh"><div class="soi"><div class="son">📦 Envío estándar</div><div class="sod">3-5 días · Toda la provincia</div></div><span class="sop">$2.500</span></label>
+          <label class="so" onclick="selSh(this,4500)"><input type="radio" name="sh"><div class="soi"><div class="son">🚀 Envío express</div><div class="sod">24-48hs · Capital Jujeña</div></div><span class="sop">$4.500</span></label>
+        </div>
+        <div id="shAddr" style="display:none">
+          <div class="fg">
+            <div class="fg-g full"><label class="fl">Dirección *</label><input type="text" class="fi" id="o-ad" placeholder="Calle y número"></div>
+            <div class="fg-g"><label class="fl">Ciudad</label><input type="text" class="fi" id="o-ci" placeholder="Ciudad"></div>
+            <div class="fg-g"><label class="fl">Barrio</label><input type="text" class="fi" id="o-ba" placeholder="Barrio"></div>
+          </div>
+        </div>
+        <div class="coa"><button class="btn btn-gh" onclick="goS(1)">← Volver</button><button class="btn btn-pu" onclick="goS(3)">Continuar →</button></div>
+      </div>
+      <!-- Step 3 -->
+      <div id="s3" style="display:none">
+        <div class="cost2">Método de pago</div>
+        <div class="poo">
+          <div class="poo-o sl" onclick="selPa(this,'Mercado Pago')"><span>📱</span><span>Mercado Pago</span></div>
+          <div class="poo-o" onclick="selPa(this,'Tarjeta crédito')"><span>💳</span><span>Crédito</span></div>
+          <div class="poo-o" onclick="selPa(this,'Tarjeta débito')"><span>💳</span><span>Débito</span></div>
+          <div class="poo-o" onclick="selPa(this,'Transferencia')"><span>🏦</span><span>Transferencia</span></div>
+        </div>
+        <div id="cdData" style="display:none">
+          <div class="fg">
+            <div class="fg-g full"><label class="fl">Número de tarjeta</label><input type="text" class="fi" id="o-cd" placeholder="0000 0000 0000 0000" maxlength="19"></div>
+            <div class="fg-g"><label class="fl">Vencimiento</label><input type="text" class="fi" id="o-ex" placeholder="MM/AA" maxlength="5"></div>
+            <div class="fg-g"><label class="fl">CVV</label><input type="text" class="fi" id="o-cv" placeholder="000" maxlength="4"></div>
+          </div>
+        </div>
+        <div id="trData" style="display:none" class="tdw"><strong style="color:#fff">Datos para transferencia:</strong><br>Banco: Banco Nación · CBU: 0110000000000000000000<br>Alias: DPELOS.JUJUY · Titular: d'Pelos S.R.L.</div>
+        <div class="cosu" id="osum" style="margin-top:1rem"></div>
+        <div class="coa">
+          <button class="btn btn-gh" onclick="goS(2)">← Volver</button>
+          <button class="btn btn-pu" onclick="submitO()">🔒 Confirmar pedido</button>
+        </div>
+        <p style="font-size:.68rem;color:rgba(255,255,255,.22);text-align:center;margin-top:.75rem">🔒 Pago seguro con cifrado SSL</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SUCCESS -->
+<div class="sm" id="sm">
+  <div class="sb">
+    <div class="si">✅</div>
+    <h2 class="st2">¡Pedido confirmado!</h2>
+    <p class="ss">Gracias por tu compra en d'Pelos. Te enviamos la confirmación a tu email con los detalles y el seguimiento del envío.</p>
+    <div class="on2" id="onum">N° de pedido: #DP-000000</div>
+    <div class="sbs">
+      <a href="https://wa.me/5493885012254?text=Hola!%20Acabo%20de%20hacer%20un%20pedido%20en%20la%20web" target="_blank" class="btn btn-pu">💬 Consultar por WhatsApp</a>
+      <button class="btn btn-gh" onclick="closeSm()">Seguir comprando</button>
+    </div>
+  </div>
+</div>
+
+<!-- WA FLOAT -->
+<div class="waf">
+  <a href="https://wa.me/5493885012254?text=Hola%20d'Pelos!%20Quisiera%20consultar%20sobre%20productos" target="_blank" class="wab">💬</a>
+  <span class="wtt">¡Hablá con ventas ahora!</span>
+</div>
+
+<!-- CHATBOT -->
+<div class="chbw">
+  <div class="chw" id="chw">
+    <div class="chh"><div class="chav">🤖</div><div><div class="chnm">Asistente d'Pelos</div><div class="chst">● En línea</div></div></div>
+    <div class="chb" id="chb">
+      <div class="cbb">¡Hola! Soy el asistente virtual de d'Pelos 👋 ¿En qué puedo ayudarte hoy?</div>
+      <div class="cho">
+        <button class="cho-b" onclick="chRep('¿Cómo comprar?')">¿Cómo comprar?</button>
+        <button class="cho-b" onclick="chRep('Precios mayoristas')">Mayoristas</button>
+        <button class="cho-b" onclick="chRep('Envíos')">Envíos</button>
+        <button class="cho-b" onclick="chRep('Dónde están')">Dónde están</button>
+      </div>
+    </div>
+    <div class="chiw">
+      <input type="text" class="chin" id="chin" placeholder="Escribí tu mensaje..." onkeydown="if(event.key==='Enter')sendCh()">
+      <button class="chs" onclick="sendCh()">➤</button>
+    </div>
+  </div>
+  <button class="cht2" onclick="togCh()">💬</button>
+</div>
+
+<!-- TOAST -->
+<div class="tst2" id="tst"><span class="tic" id="tic">✅</span><span id="ttx" style="color:#fff;line-height:1.4">Mensaje</span></div>
+
+<script>
+/* BG CANVAS */
+const cv=document.getElementById('bgc'),cx2=cv.getContext('2d');
+let W,H,pp=[];
+const COLS=['#9b5fe0','#f075b5','#f9d62e','#f9a825','#5cb85c','#26c6da','#4285f4','#e53935'];
+function rsz(){W=cv.width=window.innerWidth;H=cv.height=window.innerHeight}
+rsz();window.addEventListener('resize',rsz);
+class P{
+  constructor(){this.rs()}
+  rs(){this.x=Math.random()*W;this.y=Math.random()*H;this.r=Math.random()*55+8;this.c=COLS[Math.floor(Math.random()*COLS.length)];this.a=Math.random()*.05+.008;this.vx=(Math.random()-.5)*.28;this.vy=(Math.random()-.5)*.28;this.va=(Math.random()-.5)*.0003}
+  draw(){cx2.beginPath();cx2.arc(this.x,this.y,this.r,0,Math.PI*2);cx2.fillStyle=this.c;cx2.globalAlpha=this.a;cx2.fill();cx2.globalAlpha=1}
+  upd(){this.x+=this.vx;this.y+=this.vy;this.a+=this.va;if(this.a<.005||this.a>.08)this.va*=-1;if(this.x<-this.r||this.x>W+this.r||this.y<-this.r||this.y>H+this.r)this.rs()}
+}
+for(let i=0;i<38;i++)pp.push(new P());
+(function anim(){cx2.clearRect(0,0,W,H);pp.forEach(p=>{p.upd();p.draw()});requestAnimationFrame(anim)})();
+
+/* HERO BUBBLES */
+const hb=document.getElementById('hbubs');
+for(let i=0;i<16;i++){
+  const b=document.createElement('div');
+  const sz=Math.random()*80+15,lf=Math.random()*100,du=Math.random()*12+7,dl=Math.random()*10;
+  b.className='bub';b.style.cssText=`width:${sz}px;height:${sz}px;left:${lf}%;background:${COLS[i%COLS.length]};animation-duration:${du}s;animation-delay:-${dl}s`;
+  hb.appendChild(b);
+}
+
+/* NAVBAR */
+window.addEventListener('scroll',()=>document.getElementById('nb').classList.toggle('sc',window.scrollY>60));
+
+/* MOBILE MENU */
+function togMob(){document.getElementById('mm').classList.toggle('on');document.getElementById('mov').classList.toggle('on')}
+
+/* TICKER */
+const tis=['Envíos a toda la provincia 🌟','Stock garantizado 📦','Precios mayoristas 💰','Mercado Pago aceptado 📱','+500 productos ✨','Balcarce 242 · Jujuy 📍','WA +54 9 3885 01-2254 💬','Atención personalizada ⭐'];
+const tkr=document.getElementById('tkr');
+tkr.innerHTML=[...tis,...tis].map(t=>`<span class="tks"><span class="tkd"></span>${t}</span>`).join('');
+
+/* SCROLL ANIM */
+const obs=new IntersectionObserver(e=>e.forEach(x=>{if(x.isIntersecting)x.target.classList.add('v')}),{threshold:.1});
+document.querySelectorAll('.fi2').forEach(el=>obs.observe(el));
+
+/* PRODUCTS */
+const PRODS=[
+  {id:1,name:'Tintura Profesional Color X',cat:'cabello',price:4800,old:6200,desc:'Coloración permanente con cobertura total. 60ml.',em:'🎨',badge:'oferta'},
+  {id:2,name:'Shampoo Hidratante 5L',cat:'cabello',price:9500,old:null,desc:'Queratina y argán. Para uso profesional intensivo.',em:'🧴',badge:'nuevo'},
+  {id:3,name:'Acondicionador Repair 1L',cat:'cabello',price:3200,old:null,desc:'Reconstruye la fibra capilar. Sin sal ni parabenos.',em:'💚',badge:null},
+  {id:4,name:'Keratin Shock Treatment',cat:'cabello',price:12000,old:15000,desc:'Alisado y nutrición en un paso. Sin formol. x5 usos.',em:'💫',badge:'oferta'},
+  {id:5,name:'Kit Acrílico Starter',cat:'uñas',price:18500,old:22000,desc:'Polvo + monómero + lima + base. Todo para empezar.',em:'💅',badge:'oferta'},
+  {id:6,name:'Esmalte Semipermanente x12',cat:'uñas',price:7200,old:null,desc:'12 colores temporada. Larga duración, sin tolueno.',em:'🌈',badge:'nuevo'},
+  {id:7,name:'Lámpara UV/LED 48W',cat:'uñas',price:15000,old:19000,desc:'Curado en 30s. Pantalla LCD, timer automático.',em:'💡',badge:'oferta'},
+  {id:8,name:'Removedor Sin Acetona 500ml',cat:'uñas',price:1800,old:null,desc:'Fórmula suave con vitamina E. Protege uñas y piel.',em:'🧹',badge:null},
+  {id:9,name:'Cera Depilatoria 1kg',cat:'estetica',price:5800,old:null,desc:'Bajo punto de fusión. Ideal para pieles sensibles.',em:'🍯',badge:null},
+  {id:10,name:'Mascarilla Arcilla Kaolin',cat:'estetica',price:2900,old:null,desc:'Limpieza profunda de poros. 500ml.',em:'🌿',badge:null},
+  {id:11,name:'Máquina de Corte Profesional',cat:'herramientas',price:42000,old:52000,desc:'Motor japonés sin escobillas. Silencioso y potente.',em:'⚡',badge:'oferta'},
+  {id:12,name:'Tijera Profesional 6.5"',cat:'herramientas',price:28500,old:null,desc:'Acero japonés. Ergonómica, ajuste de tensión.',em:'✂️',badge:null},
+  {id:13,name:'Plancha Iónica Titanium',cat:'herramientas',price:38000,old:45000,desc:'180-230°C. Calentamiento rápido en 30 segundos.',em:'🔧',badge:'oferta'},
+  {id:14,name:'Crema de Afeitar Premium',cat:'barberia',price:2400,old:null,desc:'Glicerina y aloe vera. Suaviza y protege la piel.',em:'🪒',badge:null},
+  {id:15,name:'Aceite de Barba 60ml',cat:'barberia',price:3100,old:null,desc:'Blend de aceites naturales para hidratar y definir.',em:'🌿',badge:'nuevo'},
+  {id:16,name:'Maquinilla de Precisión',cat:'barberia',price:8900,old:null,desc:'Cuchillas T de acero. Para contornos perfectos.',em:'🪒',badge:null},
+];
+
+const catC={cabello:'color:var(--pu)',uñas:'color:var(--pk)',estetica:'color:var(--tl)',herramientas:'color:var(--gr)',barberia:'color:var(--or)'};
+const catBg={cabello:'linear-gradient(135deg,rgba(155,95,224,.12),rgba(240,117,181,.08))',uñas:'linear-gradient(135deg,rgba(240,117,181,.12),rgba(249,168,37,.08))',estetica:'linear-gradient(135deg,rgba(38,198,218,.12),rgba(66,133,244,.08))',herramientas:'linear-gradient(135deg,rgba(92,184,92,.12),rgba(38,198,218,.08))',barberia:'linear-gradient(135deg,rgba(249,168,37,.12),rgba(229,57,53,.08))'};
+
+let curF='todos',shown=8;
+function filP(f,btn){
+  curF=f;shown=8;
+  document.querySelectorAll('.fb-b').forEach(b=>b.classList.remove('ac'));
+  if(btn)btn.classList.add('ac');
+  renderP();
+  document.getElementById('catalog-section').scrollIntoView({behavior:'smooth'});
+}
+function renderP(){
+  const g=document.getElementById('pg');
+  const fil=curF==='todos'?PRODS:PRODS.filter(p=>p.cat===curF);
+  const ts=fil.slice(0,shown);
+  g.innerHTML=ts.map(p=>`
+    <div class="pc fi2">
+      <div class="pi" style="background:${catBg[p.cat]||catBg.cabello}">
+        <span style="font-size:3.8rem">${p.em}</span>
+        ${p.badge?`<span class="pb2 ${p.badge==='oferta'?'bof':'bnw'}">${p.badge==='oferta'?'Oferta':'Nuevo'}</span>`:''}
+      </div>
+      <div class="pb3">
+        <div class="pc-cat" style="${catC[p.cat]||'color:var(--pu)'};">${p.cat.charAt(0).toUpperCase()+p.cat.slice(1)}</div>
+        <div class="pc-n">${p.name}</div>
+        <p class="pc-d">${p.desc}</p>
+        <div class="pc-f">
+          <div>${p.old?`<span class="pc-o">$${p.old.toLocaleString('es-AR')}</span>`:''}
+          <span class="pc-p gt">$${p.price.toLocaleString('es-AR')}</span></div>
+          <button class="ab" onclick="addC(${p.id})">+</button>
+        </div>
+      </div>
+    </div>
+  `).join('');
+  document.getElementById('lmb').style.display=ts.length<fil.length?'inline-flex':'none';
+  g.querySelectorAll('.fi2').forEach(el=>obs.observe(el));
+}
+function loadMore(){shown+=4;renderP()}
+renderP();
+
+/* CART */
+let cart=JSON.parse(localStorage.getItem('dpelos_c')||'[]');
+let shipC=0,curP='Mercado Pago';
+function saveC(){localStorage.setItem('dpelos_c',JSON.stringify(cart))}
+function totC(){return cart.reduce((s,i)=>s+i.price*i.qty,0)}
+function cntC(){return cart.reduce((s,i)=>s+i.qty,0)}
+function addC(id){
+  const p=PRODS.find(x=>x.id===id);if(!p)return;
+  const ex=cart.find(i=>i.id===id);if(ex)ex.qty++;else cart.push({...p,qty:1});
+  saveC();updCUI();showT('🛒',`<strong>${p.name}</strong> agregado al carrito`);
+}
+function rmC(id){cart=cart.filter(i=>i.id!==id);saveC();updCUI()}
+function updQ(id,d){const it=cart.find(i=>i.id===id);if(!it)return;it.qty+=d;if(it.qty<=0)rmC(id);else{saveC();updCUI()}}
+function updCUI(){
+  const cnt=cntC(),el=document.getElementById('cnt');
+  el.textContent=cnt;el.classList.toggle('on',cnt>0);
+  const lt=document.getElementById('clt'),ft=document.getElementById('cft');
+  if(cart.length===0){lt.innerHTML='<div class="cem"><span>🛒</span><p>Tu carrito está vacío</p></div>';ft.style.display='none'}
+  else{
+    lt.innerHTML=cart.map(i=>`<div class="ci"><div class="cii">${i.em}</div><div class="ciin"><div class="cin">${i.name}</div><div class="cip">$${i.price.toLocaleString('es-AR')}</div><div class="ciq"><button class="qb" onclick="updQ(${i.id},-1)">−</button><span class="qn">${i.qty}</span><button class="qb" onclick="updQ(${i.id},1)">+</button></div></div><button class="cdl" onclick="rmC(${i.id})">✕</button></div>`).join('');
+    ft.style.display='block';
+  }
+  document.getElementById('ctv').textContent='$'+totC().toLocaleString('es-AR');
+}
+function togCart(){document.getElementById('csd').classList.toggle('on');document.getElementById('cov').classList.toggle('on')}
+updCUI();
+
+/* CHECKOUT */
+let coS=1;
+function openCO(){togCart();setTimeout(()=>{document.getElementById('com').classList.add('on');goS(1);updSum()},300)}
+function closeCO(){document.getElementById('com').classList.remove('on')}
+function goS(n){
+  coS=n;
+  for(let i=1;i<=3;i++){
+    document.getElementById('s'+i).style.display=i===n?'block':'none';
+    const el=document.getElementById('cs'+i);el.classList.remove('ac','dn');
+    if(i===n)el.classList.add('ac');if(i<n)el.classList.add('dn');
+  }
+  if(n===3)updSum();
+}
+function selSh(el,cost){document.querySelectorAll('.so').forEach(e=>e.classList.remove('sl'));el.classList.add('sl');shipC=cost;document.getElementById('shAddr').style.display=cost>0?'block':'none'}
+function selPa(el,nm){document.querySelectorAll('.poo-o').forEach(e=>e.classList.remove('sl'));el.classList.add('sl');curP=nm;document.getElementById('cdData').style.display=nm.includes('Tarjeta')?'block':'none';document.getElementById('trData').style.display=nm==='Transferencia'?'block':'none';updSum()}
+function updSum(){
+  const el=document.getElementById('osum'),sub=totC(),tot=sub+shipC;
+  el.innerHTML=cart.map(i=>`<div class="csr"><span>${i.name} ×${i.qty}</span><span>$${(i.price*i.qty).toLocaleString('es-AR')}</span></div>`).join('')+`<div class="csr"><span>Envío</span><span>${shipC===0?'Gratis':'$'+shipC.toLocaleString('es-AR')}</span></div><div class="csr tot"><span>Total</span><span>$${tot.toLocaleString('es-AR')}</span></div>`;
+}
+function submitO(){
+  if(!document.getElementById('o-n').value.trim()||!document.getElementById('o-e').value.trim()){showT('⚠️','Completá los datos obligatorios');goS(1);return}
+  closeCO();const num='DP-'+Date.now().toString().slice(-6);
+  document.getElementById('onum').textContent='N° de pedido: #'+num;
+  document.getElementById('sm').classList.add('on');
+  cart=[];saveC();updCUI();
+}
+function closeSm(){document.getElementById('sm').classList.remove('on')}
+
+/* CONTACT */
+function submitC(){
+  if(!document.getElementById('cn').value.trim()||!document.getElementById('ce').value.trim()||!document.getElementById('cm').value.trim()){showT('⚠️','Completá los campos obligatorios');return}
+  showT('✅','Consulta enviada! Te responderemos pronto 🙌');
+  ['cn','ce','ct','cm'].forEach(id=>document.getElementById(id).value='');
+}
+
+/* TOAST */
+let tTm;
+function showT(ico,txt){const t=document.getElementById('tst');document.getElementById('tic').textContent=ico;document.getElementById('ttx').innerHTML=txt;t.classList.add('on');clearTimeout(tTm);tTm=setTimeout(()=>t.classList.remove('on'),3500)}
+
+/* CHATBOT */
+const chRes={'¿Cómo comprar?':'Podés agregar productos al carrito desde el catálogo 🛍️, o pedirlo por WhatsApp al +54 9 3885 01-2254. ¡Muy fácil!','Precios mayoristas':'Para precios mayoristas escribinos al WhatsApp +54 9 3885 01-2254 📋','Envíos':'Enviamos a toda la provincia de Jujuy 🚚. Express 24/48hs ($4.500) o estándar 3-5 días ($2.500). Retiro gratis en Balcarce 242.','Dónde están':'Estamos en Gral. Balcarce 242, San Salvador de Jujuy 📍. Lun-Vie 9-18hs, Sáb 9-13hs.'};
+function togCh(){document.getElementById('chw').classList.toggle('on')}
+function chRep(opt){
+  const b=document.getElementById('chb');
+  const ub=document.createElement('div');ub.className='cbb u';ub.textContent=opt;b.appendChild(ub);
+  setTimeout(()=>{const bb=document.createElement('div');bb.className='cbb';bb.textContent=chRes[opt]||'¡Gracias! Un asesor se comunicará a la brevedad.';b.appendChild(bb);b.scrollTop=b.scrollHeight},600);
+  b.scrollTop=b.scrollHeight;
+}
+function sendCh(){
+  const inp=document.getElementById('chin'),msg=inp.value.trim();if(!msg)return;
+  const b=document.getElementById('chb'),ub=document.createElement('div');
+  ub.className='cbb u';ub.textContent=msg;b.appendChild(ub);inp.value='';
+  setTimeout(()=>{
+    const bb=document.createElement('div');bb.className='cbb';const l=msg.toLowerCase();
+    if(l.includes('precio')||l.includes('costo'))bb.textContent='Para precios mayoristas escribinos al WhatsApp +54 9 3885 01-2254 💰';
+    else if(l.includes('envío')||l.includes('envio'))bb.textContent='Enviamos a toda la provincia. Express $4.500 o estándar $2.500. Retiro gratis en local 🚚';
+    else if(l.includes('dónde')||l.includes('donde')||l.includes('dirección'))bb.textContent='Gral. Balcarce 242, San Salvador de Jujuy 📍. Lun-Vie 9-18hs, Sáb 9-13hs!';
+    else if(l.includes('horario'))bb.textContent='Lun–Vie: 9 a 18hs · Sáb: 9 a 13hs ⏰';
+    else bb.textContent='Gracias por tu mensaje! Escribinos al WhatsApp +54 9 3885 01-2254 para atención directa 😊';
+    b.appendChild(bb);b.scrollTop=b.scrollHeight;
+  },700);
+  b.scrollTop=b.scrollHeight;
+}
+
+/* CARD FORMAT */
+document.addEventListener('input',e=>{
+  if(e.target.id==='o-cd'){let v=e.target.value.replace(/\D/g,'').slice(0,16);e.target.value=v.replace(/(.{4})/g,'$1 ').trim()}
+  if(e.target.id==='o-ex'){let v=e.target.value.replace(/\D/g,'').slice(0,4);if(v.length>=3)v=v.slice(0,2)+'/'+v.slice(2);e.target.value=v}
+});
+
+/* ESC KEY */
+document.addEventListener('keydown',e=>{
+  if(e.key==='Escape'){closeCO();closeSm();if(document.getElementById('csd').classList.contains('on'))togCart();document.getElementById('chw').classList.remove('on')}
+});
+</script>
+</body>
+</html>
